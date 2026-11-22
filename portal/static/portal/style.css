@@ -83,6 +83,17 @@ textarea {
     display: inline-block;
 }
 
+table {
+  border-collapse: collapse;
+  width: 50%;
+}
+
+thead, tbody {
+  border: 1px solid #333;
+  padding: 8px 12px;
+  text-align: left;
+}
+
 .btn_danger {
     background: #c00;
 }
