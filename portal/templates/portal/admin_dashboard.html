@@ -1,0 +1,107 @@
+{% extends 'portal/base.html' %}
+
+{% block title %}Панель администратора — Design.pro{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2 class="section_title">Управление категориями заявок</h2>
+    <form method="post" action="{% url 'add_category' %}" class="inline_form" style="margin-bottom: 16px;">
+        {% csrf_token %}
+        {{ category_form.name }}
+        <button type="submit" class="btn btn_primary">Добавить категорию</button>
+    </form>
+
+    {% if categories %}
+        <table class="data_table">
+            <thead>
+                <tr>
+                    <th>Название категории</th>
+                    <th>Действие</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cat in categories %}
+                    <tr>
+                        <td>{{ cat.name }}</td>
+                        <td>
+                            <a href="{% url 'delete_category' cat.pk %}" class="btn btn_danger btn_sm">Удалить</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Категории пока не созданы.</p>
+    {% endif %}
+</div>
+
+<div class="card">
+    <h2 class="section_title">Все заявки пользователей</h2>
+
+    <div class="filter_bar">
+        <a href="{% url 'admin_dashboard' %}" class="filter_link {% if not selected_status %}active{% endif %}">Все</a>
+        {% for status_code, status_label in statuses %}
+            <a href="{% url 'admin_dashboard' %}?status={{ status_code }}" class="filter_link {% if selected_status == status_code %}active{% endif %}">
+                {{ status_label }}
+            </a>
+        {% endfor %}
+    </div>
+
+    {% if applications %}
+        <table class="data_table">
+            <thead>
+                <tr>
+                    <th>Дата</th>
+                    <th>Клиент</th>
+                    <th>Заявка и описание</th>
+                    <th>Категория</th>
+                    <th>План / Дизайн</th>
+                    <th>Статус</th>
+                    <th>Смена статуса</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for app in applications %}
+                    <tr>
+                        <td>{{ app.created_at|date:"d.m.Y H:i" }}</td>
+                        <td>{{ app.user.full_name }}<br><small>({{ app.user.username }})</small></td>
+                        <td>
+                            <strong>{{ app.title }}</strong><br>
+                            {{ app.description }}
+                            {% if app.comment %}
+                                <div style="margin-top: 6px; font-size: 13px; color: #0369a1;">
+                                    <strong>Комментарий:</strong> {{ app.comment }}
+                                </div>
+                            {% endif %}
+                        </td>
+                        <td>{{ app.category.name }}</td>
+                        <td>
+                            {% if app.plan_image %}
+                                <div><small>План:</small><br><a href="{{ app.plan_image.url }}" target="_blank"><img src="{{ app.plan_image.url }}" alt="План" class="thumb_img"></a></div>
+                            {% endif %}
+                            {% if app.design_image %}
+                                <div style="margin-top: 6px;"><small>Дизайн:</small><br><a href="{{ app.design_image.url }}" target="_blank"><img src="{{ app.design_image.url }}" alt="Дизайн" class="thumb_img"></a></div>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="status_badge status_{{ app.status }}">{{ app.get_status_display }}</span>
+                        </td>
+                        <td>
+                            {% if app.status == 'new' %}
+                                <div class="action_stack">
+                                    <a href="{% url 'set_status_in_progress' app.pk %}" class="btn btn_warning btn_sm">В работу</a>
+                                    <a href="{% url 'set_status_completed' app.pk %}" class="btn btn_success btn_sm">Выполнено</a>
+                                </div>
+                            {% else %}
+                                <span style="font-size: 12px; color: #94a3b8;">Статус зафиксирован</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Заявок нет.</p>
+    {% endif %}
+</div>
+{% endblock %}

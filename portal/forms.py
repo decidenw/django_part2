@@ -133,15 +133,14 @@ class StatusInProgressForm(forms.ModelForm):
         error_messages={'required': 'Для смены статуса на «Принято в работу» необходимо указать комментарий.'}
     )
 
-    class Meta:
-        model = Application
-        fields = ('comment',)
-
-    def clean_comment(self):
-        comment = self.cleaned_data.get('comment', '').strip()
-        if not comment:
-            raise forms.ValidationError('Комментарий не может состоять только из пробелов.')
-        return comment
+class Meta:
+    model = Application
+    fields = ('comment',)
+def clean_comment(self):
+    comment = self.cleaned_data.get('comment', '').strip()
+    if not comment:
+        raise forms.ValidationError('Комментарий не может состоять только из пробелов.')
+    return comment
 
 
 class StatusCompletedForm(forms.ModelForm):

@@ -1,0 +1,41 @@
+{% extends 'portal/base.html' %}
+
+{% block title %}Design.pro — Главная страница{% endblock %}
+
+{% block content %}
+<div class="hero_banner">
+    <div>
+        <h1>Дизайн-студия интерьеров «Design.pro»</h1>
+        <p>Загружайте планы жилых помещений и получайте профессиональные варианты оформления.</p>
+    </div>
+    <div class="counter_box">
+        <span class="counter_number">{{ in_progress_count }}</span>
+        <span class="counter_label">Заявок в работе</span>
+    </div>
+</div>
+
+<h2 class="section_title">Последние выполненные проекты</h2>
+
+{% if completed_applications %}
+    <div class="portfolio_grid">
+        {% for app in completed_applications %}
+            <div class="portfolio_card">
+                {% if app.design_image %}
+                    <img src="{{ app.design_image.url }}" alt="{{ app.title }}" class="portfolio_img">
+                {% elif app.plan_image %}
+                    <img src="{{ app.plan_image.url }}" alt="{{ app.title }}" class="portfolio_img">
+                {% endif %}
+                <div class="portfolio_body">
+                    <div class="portfolio_meta">{{ app.created_at|date:"d.m.Y H:i" }}</div>
+                    <div class="portfolio_title">{{ app.title }}</div>
+                    <span class="badge_category">{{ app.category.name }}</span>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="card">
+        <p>Выполненных проектов пока нет. Зарегистрируйтесь и оставьте первую заявку!</p>
+    </div>
+{% endif %}
+{% endblock %}

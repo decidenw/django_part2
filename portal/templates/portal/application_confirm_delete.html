@@ -1,0 +1,17 @@
+{% extends 'portal/base.html' %}
+
+{% block title %}Удаление заявки — Design.pro{% endblock %}
+
+{% block content %}
+<div class="card form_box">
+    <h1 class="page_title">Подтверждение удаления</h1>
+    <p style="margin-bottom: 16px;">
+        Вы действительно хотите удалить заявку <strong>«{{ application.title }}»</strong> от {{ application.created_at|date:"d.m.Y H:i" }}?
+    </p>
+    <form method="post" class="inline_form">
+        {% csrf_token %}
+        <button type="submit" class="btn btn_danger">Да, удалить</button>
+        <a href="{% url 'profile' %}" class="btn btn_secondary">Отмена</a>
+    </form>
+</div>
+{% endblock %}

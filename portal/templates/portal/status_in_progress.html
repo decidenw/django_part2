@@ -1,0 +1,32 @@
+{% extends 'portal/base.html' %}
+
+{% block title %}Принятие заявки в работу — Design.pro{% endblock %}
+
+{% block content %}
+<div class="card form_box">
+    <h1 class="page_title">Смена статуса на «Принято в работу»</h1>
+    <p style="margin-bottom: 16px;">Заявка: <strong>{{ application.title }}</strong> (автор: {{ application.user.full_name }})</p>
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form_group {% if field.errors %}has_error{% endif %}">
+                <label for="{{ field.id_for_label }}" class="form_label">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <ul class="field_errors">
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <div class="inline_form">
+            <button type="submit" class="btn btn_warning">Подтвердить</button>
+            <a href="{% url 'admin_dashboard' %}" class="btn btn_secondary">Отмена</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Design.pro — Дизайн-студия интерьеров{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'portal/style.css' %}">
+</head>
+<body>
+    <header class="site_header">
+        <div class="container header_inner">
+            <a href="{% url 'index' %}" class="logo_link">Design<span class="logo_accent">.pro</span></a>
+            <nav class="main_nav">
+                <a href="{% url 'index' %}" class="nav_link">Главная</a>
+
+                {% if user.is_authenticated %}
+                    {% if user.is_staff %}
+                        <a href="{% url 'admin_dashboard' %}" class="nav_link">Панель администратора</a>
+                        <a href="/superadmin/" class="nav_link">Django Admin</a>
+                    {% else %}
+                        <a href="{% url 'profile' %}" class="nav_link">Личный кабинет</a>
+                        <a href="{% url 'create_application' %}" class="nav_link">Создать заявку</a>
+                    {% endif %}
+                    <span class="user_badge">{{ user.username }}</span>
+                    <a href="{% url 'logout' %}" class="btn btn_secondary btn_sm">Выход</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="nav_link">Вход</a>
+                    <a href="{% url 'register' %}" class="btn btn_primary btn_sm">Регистрация</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        {% if messages %}
+            <div class="messages_list">
+                {% for message in messages %}
+                    <div class="alert {% if message.tags == 'error' %}alert_error{% else %}alert_success{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

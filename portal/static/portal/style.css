@@ -1,0 +1,107 @@
+body {
+    font-family: sans-serif;
+    margin: 20px;
+}
+
+.site_header {
+    background: #333;
+    color: #fff;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.site_header a {
+    color: #fff;
+    margin-right: 15px;
+}
+
+.header_inner,
+.main_nav,
+.inline_form,
+.filter_bar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.header_inner {
+    justify-content: space-between;
+}
+
+.card {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.form_box {
+    max-width: 450px;
+}
+
+.form_group {
+    margin-bottom: 10px;
+}
+
+.form_label {
+    display: block;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+    width: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.form_group.has_error input,
+.form_group.has_error select,
+.form_group.has_error textarea {
+    border: 2px solid red;
+}
+
+.field_errors,
+.alert_error {
+    color: red;
+}
+
+.alert_success {
+    color: green;
+}
+
+.btn {
+    padding: 5px 10px;
+    background: #444;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.btn_danger {
+    background: #c00;
+}
+
+.btn_success {
+    background: #282;
+}
+
+.btn_warning {
+    background: #c70;
+}
+
+.portfolio_grid {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.portfolio_card {
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 220px
