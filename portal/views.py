@@ -12,10 +12,8 @@ from .forms import (
     CategoryForm,
 )
 
-
 def is_admin(user):
     return user.is_authenticated and user.is_staff
-
 
 def index(request):
     completed_applications = Application.objects.filter(
@@ -31,7 +29,6 @@ def index(request):
         'in_progress_count': in_progress_count,
     }
     return render(request, 'portal/index.html', context)
-
 
 def register_view(request):
     if request.user.is_authenticated:
@@ -49,7 +46,6 @@ def register_view(request):
 
     return render(request, 'portal/register.html', {'form': form})
 
-
 def login_view(request):
     if request.user.is_authenticated:
         return redirect('admin_dashboard' if request.user.is_staff else 'profile')
@@ -59,7 +55,6 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            # Если вошел администратор — направляем в панель администратора, иначе в ЛК пользователя
             if user.is_staff:
                 return redirect('admin_dashboard')
             return redirect('profile')
@@ -68,12 +63,10 @@ def login_view(request):
 
     return render(request, 'portal/login.html', {'form': form})
 
-
 @login_required
 def logout_view(request):
     logout(request)
     return redirect('index')
-
 
 @login_required
 def profile_view(request):
@@ -90,7 +83,6 @@ def profile_view(request):
     }
     return render(request, 'portal/profile.html', context)
 
-
 @login_required
 def create_application_view(request):
     if request.method == 'POST':
@@ -106,7 +98,6 @@ def create_application_view(request):
         form = ApplicationCreateForm()
 
     return render(request, 'portal/application_form.html', {'form': form})
-
 
 @login_required
 def delete_application_view(request, pk):
@@ -125,7 +116,6 @@ def delete_application_view(request, pk):
         return redirect('profile')
 
     return render(request, 'portal/application_confirm_delete.html', {'application': application})
-
 
 @user_passes_test(is_admin, login_url='login')
 def admin_dashboard_view(request):
@@ -146,7 +136,6 @@ def admin_dashboard_view(request):
         'statuses': Application.Status.choices,
     }
     return render(request, 'portal/admin_dashboard.html', context)
-
 
 @user_passes_test(is_admin, login_url='login')
 def set_status_in_progress_view(request, pk):
@@ -172,7 +161,6 @@ def set_status_in_progress_view(request, pk):
         'application': application,
     })
 
-
 @user_passes_test(is_admin, login_url='login')
 def set_status_completed_view(request, pk):
     application = get_object_or_404(Application, pk=pk)
@@ -197,7 +185,6 @@ def set_status_completed_view(request, pk):
         'application': application,
     })
 
-
 @user_passes_test(is_admin, login_url='login')
 def add_category_view(request):
     if request.method == 'POST':
@@ -209,7 +196,6 @@ def add_category_view(request):
             for error in form.errors.get('name', []):
                 messages.error(request, error)
     return redirect('admin_dashboard')
-
 
 @user_passes_test(is_admin, login_url='login')
 def delete_category_view(request, pk):

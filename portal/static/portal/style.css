@@ -122,7 +122,13 @@ thead, tbody {
 }
 
 img {
-    max-width: 100%;
+    max-width: 1000%;
+    height: auto;
+    display: block;
+}
+
+a > img {
+    max-width: 50%;
     height: auto;
     display: block;
 }
@@ -153,5 +159,14 @@ img {
     width: 140px;
     height: 100px;
     object-fit: cover;
+}
+
+.thumb_img {
+    max-height: 140px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+    border-radius: 4px;
+    border: 1px solid #e2e8f0;
 }
 

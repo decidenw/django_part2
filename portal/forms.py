@@ -4,7 +4,6 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import CustomUser, Application, Category
 
-
 def validate_image_file(image):
     if not image:
         raise forms.ValidationError('Необходимо прикрепить файл изображения.')
@@ -82,7 +81,6 @@ class RegistrationForm(UserCreationForm):
             raise forms.ValidationError('Пользователь с таким Email уже зарегистрирован.')
         return email
 
-
 class LoginForm(AuthenticationForm):
     error_messages = {
         'invalid_login': 'Неверный логин или пароль. Проверьте правильность введенных данных.',
@@ -93,7 +91,6 @@ class LoginForm(AuthenticationForm):
         super().__init__(*args, **kwargs)
         self.fields['username'].label = 'Логин'
         self.fields['password'].label = 'Пароль'
-
 
 class ApplicationCreateForm(forms.ModelForm):
     class Meta:
@@ -124,7 +121,6 @@ class ApplicationCreateForm(forms.ModelForm):
         image = self.cleaned_data.get('plan_image')
         return validate_image_file(image)
 
-
 class StatusInProgressForm(forms.ModelForm):
     comment = forms.CharField(
         label='Комментарий администратора',
@@ -136,11 +132,12 @@ class StatusInProgressForm(forms.ModelForm):
     class Meta:
         model = Application
         fields = ('comment',)
-def clean_comment(self):
-    comment = self.cleaned_data.get('comment', '').strip()
-    if not comment:
-        raise forms.ValidationError('Комментарий не может состоять только из пробелов.')
-    return comment
+
+    def clean_comment(self):
+        comment = self.cleaned_data.get('comment', '').strip()
+        if not comment:
+            raise forms.ValidationError('Комментарий не может состоять только из пробелов.')
+        return comment
 
 
 class StatusCompletedForm(forms.ModelForm):
