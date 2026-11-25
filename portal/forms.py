@@ -126,16 +126,16 @@ class ApplicationCreateForm(forms.ModelForm):
 
 
 class StatusInProgressForm(forms.ModelForm):
-   comment = forms.CharField(
+    comment = forms.CharField(
         label='Комментарий администратора',
         required=True,
         widget=forms.Textarea(attrs={'rows': 3, 'placeholder': 'Укажите комментарий к принятию заявки в работу...'}),
         error_messages={'required': 'Для смены статуса на «Принято в работу» необходимо указать комментарий.'}
     )
 
-class Meta:
-    model = Application
-    fields = ('comment',)
+    class Meta:
+        model = Application
+        fields = ('comment',)
 def clean_comment(self):
     comment = self.cleaned_data.get('comment', '').strip()
     if not comment:
@@ -144,16 +144,19 @@ def clean_comment(self):
 
 
 class StatusCompletedForm(forms.ModelForm):
+    comment = forms.CharField(
+        label='Комментарий администратора (необязательно)',
+        required=False,
+        widget=forms.Textarea(attrs={'rows': 3, 'placeholder': 'Опишите результат выполненной работы...'}),
+    )
+
     class Meta:
         model = Application
-        fields = ('design_image',)
+        fields = ('design_image', 'comment')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['design_image'].required = True
-        self.fields['design_image'].error_messages = {
-            'required': 'Для завершения заявки необходимо прикрепить изображение готового дизайна.'
-        }
 
     def clean_design_image(self):
         image = self.cleaned_data.get('design_image')

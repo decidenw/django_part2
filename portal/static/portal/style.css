@@ -116,3 +116,42 @@ thead, tbody {
     border: 1px solid #ccc;
     padding: 10px;
     width: 220px
+
+* {
+    box-sizing: border-box;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.portfolio_grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.portfolio_card {
+    border: 1px solid #ccc;
+    padding: 10px;
+    background: #fff;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.portfolio_img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.data_table img {
+    width: 140px;
+    height: 100px;
+    object-fit: cover;
+}
+

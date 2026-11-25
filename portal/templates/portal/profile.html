@@ -26,6 +26,7 @@
                     <th>Название</th>
                     <th>Описание</th>
                     <th>Категория</th>
+                    <th>План / Дизайн</th>
                     <th>Статус</th>
                     <th>Действия</th>
                 </tr>
@@ -38,12 +39,27 @@
                         <td>
                             {{ app.description }}
                             {% if app.comment %}
-                                <div style="margin-top: 6px; font-size: 13px; color: #0369a1;">
+                                <div style="margin-top: 6px; padding: 6px; background-color: #f5f5f5; border-left: 3px solid #333; font-size: 13px;">
                                     <strong>Комментарий студии:</strong> {{ app.comment }}
                                 </div>
                             {% endif %}
                         </td>
                         <td>{{ app.category.name }}</td>
+                        <td>
+                            <div>План:</div>
+                            {% if app.plan_image %}
+                                <a href="{{ app.plan_image.url }}" target="_blank">
+                                    <img src="{{ app.plan_image.url }}" alt="План помещения" style="max-width: 150px; display: block; margin-bottom: 8px;">
+                                </a>
+                            {% endif %}
+
+                            {% if app.design_image %}
+                                <div style="margin-top: 8px; font-weight: bold; color: #2e7d32;">Готовый дизайн:</div>
+                                <a href="{{ app.design_image.url }}" target="_blank">
+                                    <img src="{{ app.design_image.url }}" alt="Готовый дизайн" style="max-width: 150px; display: block; border: 2px solid #2e7d32;">
+                                </a>
+                            {% endif %}
+                        </td>
                         <td>
                             <span class="status_badge status_{{ app.status }}">{{ app.get_status_display }}</span>
                         </td>
